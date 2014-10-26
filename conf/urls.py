@@ -8,11 +8,20 @@ urls_list={
             'http://th.hao123.com/games',
             'http://th.hao123.com/games/box',
         ],
-    'br':[
-            'http://br.hao123.com/games',
-            'http://www.fungame.com.br',
-            'http://www.fungame.com.br/box',
-        ],
+    'br':{
+	    'sync':[
+            	'http://br.hao123.com/games',
+            	'http://www.fungame.com.br',
+            	'http://www.fungame.com.br/box',
+	        ],
+	    'asyn':[
+		'http://www.fungame.com.br/asyn/homest?type=1',
+		'http://www.fungame.com.br/asyn/homest?type=0',
+		'http://www.fungame.com.br/asyn/rank?type=1',
+		'http://www.fungame.com.br/asyn/rank?type=0',
+		'http://www.fungame.com.br/asyn/hometag',
+		]
+	},
     'id':[
             'http://id.hao123.com/',
             'http://id.hao123.com/games',

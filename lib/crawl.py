@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 import urllib,urllib2
@@ -64,6 +64,13 @@ class WebCrawl2:
                 continue
         logging.debug('Crawl Failed: %s' % url)
         return None
+    def sync_parse(self,content,desc):
+	pass
+    def asyn_parse(self,content):
+	import json
+
+
+        
     
     def code_crawl(self,url,try_times=3,sleep_time=0.2):
         for i in range(try_times):
