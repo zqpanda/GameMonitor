@@ -19,7 +19,7 @@ class WebCrawl2:
         import httplib
         try:
             req=urllib2.Request(url,headers=self.headers)
-            content=urllib2.urlopen(req,timeout=60).read()
+            content=urllib2.urlopen(req,timeout=60)
             return content
         except urllib2.HTTPError,e:
             logging.error('HTTPError = ' + str(e.code))
@@ -64,14 +64,14 @@ class WebCrawl2:
                 continue
         logging.debug('Crawl Failed: %s' % url)
         return None
+
     def sync_parse(self,content,desc):
-	pass
+	    pass
+
     def asyn_parse(self,content):
-	import json
-
-
-        
-    
+        import simplejson
+        result=simplejson.load(content)
+        return result.keys()
     def code_crawl(self,url,try_times=3,sleep_time=0.2):
         for i in range(try_times):
             code=self.get_code(url)

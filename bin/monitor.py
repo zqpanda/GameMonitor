@@ -9,8 +9,10 @@ from urls import *
 def main():
     web_a=WebCrawl2()
     env=sys.argv[1]
-    result=web_a.fetch_code_parallel(urls_list[env])
-    print result
+    results=web_a.fetch_parallel(urls_list[env]['asyn'])
+    for page in results:
+        test=web_a.asyn_parse(page)
+        print test
     
 
 if __name__ == '__main__':
