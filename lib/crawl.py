@@ -2,11 +2,10 @@
 # -*- coding:utf-8 -*-
 
 import urllib,urllib2
-from bs4 import BeautifulSoup
 import sys,time
 sys.path.append('../conf/')
 from mlogger import *
-from urls import *
+
 
 
 class WebCrawl2:
@@ -92,7 +91,14 @@ class WebCrawl2:
         results=pool.map(self.content_crawl,list_of_urls)
         pool.close()
         pool.join()
-        return results 
+        return results
+
+    def url_extract(self, web_content, url_regex=''):
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(web_content)
+        all_links = soup.findAll('a')
+        return all_links
+
 
     def fetch_code_parallel(self,list_of_urls,pool_num=4):
         from multiprocessing.dummy import Pool as ThreadPool
