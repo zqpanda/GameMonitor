@@ -59,7 +59,6 @@ def main():
    
     webcrawl = WebCrawl2()
     url_content = webcrawl.fetch_parallel(urls_list, thread_count)
-    print url_content
     for page in url_content:
    	print webcrawl.url_extract(page)
 
