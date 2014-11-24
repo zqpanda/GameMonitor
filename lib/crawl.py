@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import urllib,urllib2
+import urllib,urllib2,chardet
 import sys,time
+import zlib 
 sys.path.append('../conf/')
 from mlogger import *
 
@@ -10,16 +11,20 @@ from mlogger import *
 
 class WebCrawl2:
     def __init__(self):
-        self.headers={'User-Agent':'Mozilla/5.0 (Windows NT 5.2; rv:7.0.1) Gecko/20100101 FireFox/7.0.1'}
+        self.headers={
+            'User-Agent':'Mozilla/5.0 (Windows NT 5.2; rv:7.0.1) Gecko/20100101 FireFox/7.0.1'
+            }
     def url_read(self,url):
         '''
         页面内容抓取
         '''
         import httplib
         try:
-            req=urllib2.Request(url,headers=self.headers)
-            content=urllib2.urlopen(req,timeout=60)
-            return content
+            req=urllib2.Request(url, headers=self.headers)
+            req.add_header('Accept-encoding', 'gzip')
+            opener = urllib2.build_opener()
+            response = opener.open(req)
+            return response
         except urllib2.HTTPError,e:
             logging.error('HTTPError = ' + str(e.code))
             return None
@@ -36,9 +41,8 @@ class WebCrawl2:
     def get_code(self,url):
         import httplib
         try:
-            req=urllib2.Request(url,headers=self.headers)
-            content=urllib2.urlopen(req,timeout=60)
-            return content.getcode()
+            code = self.url_read(url).getcode()
+            return code 
         except urllib2.HTTPError,e:
             return e.code
         except urllib2.URLError,e:
@@ -50,28 +54,37 @@ class WebCrawl2:
             logging.error('generic exception: ' + traceback.format_exc())
             return 666
 
-    def content_crawl(self,url,try_times=3,sleep_time=0.2):
+    def content_crawl(self, url, try_times=3, sleep_time=0.2):
         '''
         重试机制，默认为3次且有sleep等待
         '''
         for i in range(try_times):
-            content=self.url_read(url)
-            if content!=None:
-                return content
+            response = self.url_read(url)
+            if response != None:
+                html = response.read()
+                gzipped = response.headers.get('Content-Encoding')
+                if gzipped:
+                    html = zlib.decompress(html, 16 + zlib.MAX_WBITS)
+                encoding=chardet.detect(html)['encoding']
+                iconvcontent=html.decode(encoding).encode('utf-8')
+                return iconvcontent
             else:
                 time.sleep(sleep_time)
                 continue
         logging.debug('Crawl Failed: %s' % url)
         return None
 
-    def sync_parse(self,content,desc):
-	    pass
+    def sync_parse(self, content, desc):
+        pass
 
-    def asyn_parse(self,content):
+    def asyn_parse(self, content):
+        #异步接口处理
         import simplejson
         result=simplejson.load(content)
         return result.keys()
-    def code_crawl(self,url,try_times=3,sleep_time=0.2):
+    
+    def code_crawl(self, url, try_times=3, sleep_time=0.2):
+        #http code提取
         for i in range(try_times):
             code=self.get_code(url)
             if content == 200:
@@ -82,10 +95,8 @@ class WebCrawl2:
         logging.debug('Bad Url: %s' % url)
         return code
 
-    def fetch_parallel(self,list_of_urls,pool_num=4):
-        '''
-        并行抓取
-        '''
+    def fetch_parallel(self, list_of_urls, pool_num=4):
+        #并行抓取
         from multiprocessing.dummy import Pool as ThreadPool
         pool=ThreadPool(pool_num)
         results=pool.map(self.content_crawl,list_of_urls)
@@ -94,6 +105,7 @@ class WebCrawl2:
         return results
 
     def url_extract(self, web_content, url_regex=''):
+        #url提取
         from bs4 import BeautifulSoup
         soup = BeautifulSoup(web_content)
         all_links = soup.findAll('a')
@@ -101,6 +113,7 @@ class WebCrawl2:
 
 
     def fetch_code_parallel(self,list_of_urls,pool_num=4):
+        #并行获取http code
         from multiprocessing.dummy import Pool as ThreadPool
         pool=ThreadPool(pool_num)
         results=pool.map(self.get_code,list_of_urls)

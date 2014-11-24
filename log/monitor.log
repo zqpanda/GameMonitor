@@ -179,3 +179,69 @@ timeout: timed out
     data = self._sock.recv(left)
 timeout: timed out
 
+2014-11-24 13:20:21,641 dammit.py[line:369] WARNING Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+2014-11-24 13:21:51,488 dammit.py[line:369] WARNING Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+2014-11-25 00:21:18,483 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:21:18,690 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:21:18,901 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:21:19,102 crawl.py[line:74] DEBUG Crawl Failed: http://www.sina.com.cn
+2014-11-25 00:26:51,199 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:26:51,449 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:26:51,739 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:26:51,939 crawl.py[line:74] DEBUG Crawl Failed: http://www.sina.com.cn
+2014-11-25 00:29:06,454 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:29:06,688 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:29:06,901 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:29:07,101 crawl.py[line:74] DEBUG Crawl Failed: http://www.sina.com.cn
+2014-11-25 00:30:43,124 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:30:43,359 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:30:43,566 crawl.py[line:39] ERROR generic exception: Traceback (most recent call last):
+  File "../lib/crawl.py", line 27, in url_read
+    return content
+NameError: global name 'content' is not defined
+
+2014-11-25 00:30:43,766 crawl.py[line:74] DEBUG Crawl Failed: http://www.sina.com.cn
