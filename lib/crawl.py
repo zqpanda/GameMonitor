@@ -66,7 +66,9 @@ class WebCrawl2:
                 if gzipped:
                     html = zlib.decompress(html, 16 + zlib.MAX_WBITS)
                 encoding=chardet.detect(html)['encoding']
-                iconvcontent=html.decode(encoding).encode('utf-8')
+                if encoding == 'GB2312':
+                    encoding = 'GBK'
+                iconvcontent=html.decode(encoding)
                 return iconvcontent
             else:
                 time.sleep(sleep_time)
