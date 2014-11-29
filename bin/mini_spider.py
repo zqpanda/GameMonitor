@@ -36,7 +36,7 @@ def main():
    	    usage()
    	    sys.exit()
    	if opt in ('-v', '--version'):
-   	    print 'Mini_Spider Vesion : 1.0'
+   	    print  __file__, '1.0'
    	    sys.exit()
    	if opt in ('-c', '--conf'):
    	    conf_file = val
@@ -59,8 +59,8 @@ def main():
    
     webcrawl = WebCrawl2()
     url_content = webcrawl.fetch_parallel(urls_list, thread_count)
-    for page in url_content:
-   	print webcrawl.url_extract(page)
+    for result in url_content:
+        print result
 
 if __name__ == '__main__':
     main()

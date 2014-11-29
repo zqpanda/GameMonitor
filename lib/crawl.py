@@ -38,6 +38,16 @@ class WebCrawl2:
             import traceback
             logging.error('generic exception: ' + traceback.format_exc())
             return None
+    def url_parse(self,raw_url):
+        from urlparse import urlparse
+        url = urlparse(raw_url)
+        url_info = {
+                'hostname' : url.hostname,
+                'port' : url.port,
+                'path' : url.path,
+                }
+        return url_info
+
     def get_code(self,url):
         import httplib
         try:
@@ -101,17 +111,30 @@ class WebCrawl2:
         #并行抓取
         from multiprocessing.dummy import Pool as ThreadPool
         pool=ThreadPool(pool_num)
-        results=pool.map(self.content_crawl,list_of_urls)
+        results=pool.map(self.url_extract,list_of_urls)
         pool.close()
         pool.join()
         return results
 
-    def url_extract(self, web_content, url_regex=''):
+    def url_extract(self, crawl_url, url_regex=''):
         #url提取
         from bs4 import BeautifulSoup
+        from urlparse import urlparse
+        scheme = urlparse(crawl_url).scheme
+        hostname = urlparse(crawl_url).hostname
+        complete_host = scheme + '://' + hostname + '/'
+        web_content = self.content_crawl(crawl_url)
         soup = BeautifulSoup(web_content)
         all_links = soup.findAll('a')
-        return all_links
+        link_list = list()
+        for link_item in all_links:
+            if link_item.attrs.has_key('href'):
+                raw_url = link_item.attrs['href'].strip('/ ')
+                if urlparse(raw_url).hostname is not None:
+                    link_list.append(raw_url)
+                else:
+                    link_list.append(complete_host + raw_url)
+        return link_list
 
 
     def fetch_code_parallel(self,list_of_urls,pool_num=4):
